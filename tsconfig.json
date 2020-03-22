@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./lib",
+    "allowSyntheticDefaultImports": true,
+    "target": "es5",
+    "module": "UMD",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
