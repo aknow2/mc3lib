@@ -10,7 +10,7 @@
     "play": "serve"
   },
   "author": "tmknym",
-  "license": "GPL-3.0",
+  "license": "WTFPL",
   "devDependencies": {
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
