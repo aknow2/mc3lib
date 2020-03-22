@@ -3,15 +3,22 @@ import createAgent from './agent/index';
 import createWorldClient from './world/index';
 import { CommandResult } from './command/result';
 import { formatUrl } from './util';
+import { listenConnected } from './listen';
 
-const mclient = (connect: string) => {
+const mclient = (connect: string, onChangeConnectedStatus?: () => void) => {
   const endpoints = formatUrl(connect);
-  const Exec = createExec<CommandResult>(endpoints.http);
-  const agent = createAgent(Exec);
-  const world = createWorldClient(Exec);
+  const exec = createExec<CommandResult>(endpoints.http);
+  const agent = createAgent(exec);
+  const world = createWorldClient(exec);
+
+  const cancel = listenConnected(exec, onChangeConnectedStatus);
+
   return {
     agent,
-    world
+    world,
+    close: () => {
+      cancel();
+    }
   };
 };
 

@@ -43,3 +43,21 @@ export const createSummon = (sendCommand: Exec<Count>) => (
     entityType
   });
 };
+
+export const createExecuteAsOther = (sendCommand: Exec<void>) => (
+  target: string,
+  position: Position,
+  command: string
+) => {
+  return sendCommand('executeasother', {
+    target,
+    position,
+    command
+  });
+};
+
+export const createKill = (sendCommand: Exec<void>) => (target: string) => {
+  return sendCommand('kill', {
+    target
+  });
+};
