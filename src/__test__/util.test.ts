@@ -5,6 +5,13 @@ describe('util test', () => {
     const querystrings = createQueryStrings({ direction: 'test', zzz: 'abc' });
     expect(querystrings).toBe('direction=test&zzz=abc');
   });
+  test('query strings', () => {
+    const querystrings = createQueryStrings({
+      direction: 'test',
+      zzz: undefined
+    });
+    expect(querystrings).toBe('direction=test');
+  });
   test('format url', () => {
     const data = [
       {

@@ -1,6 +1,9 @@
 export const createQueryStrings = (query: {}) => {
   const entries = Object.entries(query);
   return entries.reduce((acc, value, index) => {
+    if (value[1] === undefined) {
+      return acc;
+    }
     if (index === 0) {
       return `${acc + value[0]}=${value[1]}`;
     }
