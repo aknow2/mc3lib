@@ -1,6 +1,7 @@
 import mc3lib from './client';
 export { Colors, Items, Blocks, Decorations, Direction, TurnDirection } from './constants';
-export declare const client: (connect: string) => {
+export { Position as BlockPosition } from './command/executor';
+export declare const client: (connect?: string, onChangeConnectedStatus?: () => void) => {
     agent: {
         move: (direction: import("./constants").Direction) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Success>;
         attack: (direction: import("./constants").Direction) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Success>;
@@ -21,6 +22,14 @@ export declare const client: (connect: string) => {
     };
     world: {
         setBlock: (position: import("./command/executor").Position, tileName: import("./constants").Items, tileData?: number) => Promise<void | import("./command/executor").ErrorMsg>;
+        kill: (target: string) => Promise<void | import("./command/executor").ErrorMsg>;
+        summon: (spawnPos: import("./command/executor").Position, entityType: string) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Count>;
+        clone: (begin: import("./command/executor").Position, end: import("./command/executor").Position, destination: import("./command/executor").Position, maskMode?: string, cloneMode?: string, tileName?: string, tileData?: number) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Count>;
+        executeAsOther: (target: string, position: import("./command/executor").Position, command: string) => Promise<void | import("./command/executor").ErrorMsg>;
+        fill: (from: import("./command/executor").Position, to: import("./command/executor").Position, tileName: string, tileData: number, intData?: number, oldBlockHandling?: number, replaceTileName?: string, replaceDataValue?: number) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Fill>;
+        weather: (type: string, duration: number) => Promise<void | import("./command/executor").ErrorMsg>;
+        detect: (target: string, position: import("./command/executor").Position, detect: string, detectPos: import("./command/executor").Position, detectBlock: string, detectData: number, command: string) => Promise<void | import("./command/executor").ErrorMsg>;
     };
+    close: () => void;
 };
 export default mc3lib;
