@@ -19,6 +19,7 @@ export const listenConnected = (
       if (onChangeConnectedStatus) {
         onChangeConnectedStatus('disconnected');
       }
+      clearInterval(clear);
       throw e;
     }
   }, 1000);
