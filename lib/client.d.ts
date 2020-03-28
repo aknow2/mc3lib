@@ -1,4 +1,5 @@
-declare const mclient: (connect?: string, onChangeConnectedStatus?: () => void) => {
+import { OnChangeConnectedStatus } from './listen/index';
+declare const mclient: (connect?: string, onChangeConnectedStatus?: OnChangeConnectedStatus) => {
     agent: {
         move: (direction: import("./constants").Direction) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Success>;
         attack: (direction: import("./constants").Direction) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Success>;

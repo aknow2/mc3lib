@@ -3,11 +3,11 @@ import createAgent from './agent/index';
 import createWorldClient from './world/index';
 import { CommandResult } from './command/result';
 import { formatUrl } from './util';
-import { listenConnected } from './listen/index';
+import { listenConnected, OnChangeConnectedStatus } from './listen/index';
 
 const mclient = (
   connect: string = 'localhost',
-  onChangeConnectedStatus?: () => void
+  onChangeConnectedStatus?: OnChangeConnectedStatus
 ) => {
   const endpoints = formatUrl(connect);
   const exec = createExec<CommandResult>(endpoints.http);

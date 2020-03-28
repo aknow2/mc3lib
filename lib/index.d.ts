@@ -1,7 +1,7 @@
 import mc3lib from './client';
 export { Colors, Items, Blocks, Decorations, Direction, TurnDirection } from './constants';
 export { Position as BlockPosition } from './command/executor';
-export declare const client: (connect?: string, onChangeConnectedStatus?: () => void) => {
+export declare const client: (connect?: string, onChangeConnectedStatus?: import("./listen").OnChangeConnectedStatus) => {
     agent: {
         move: (direction: import("./constants").Direction) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Success>;
         attack: (direction: import("./constants").Direction) => Promise<import("./command/executor").ErrorMsg | import("./command/result").Success>;
