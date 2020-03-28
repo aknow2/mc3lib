@@ -5,7 +5,7 @@ Code Builder for Minecraft: Education Edition api client in Javascript(Typescrip
 Support rest api
 https://education.minecraft.net/wp-content/uploads/Code_Connection_API.pdf
 
-launch Playground
+### launch Playground
 ``` shell
 npm install
 npm run play
@@ -14,5 +14,7 @@ npm run play
 # open dev tools console
 const client = mc3lib.client('<IP address>')
 client.agent.move('forward')
-
 ```
+
+### TODO
+[ ] Test test test
