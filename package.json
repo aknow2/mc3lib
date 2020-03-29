@@ -1,6 +1,6 @@
 {
   "name": "mc3lib",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "lib for minecraft code connection",
   "main": "lib/index.js",
   "scripts": {

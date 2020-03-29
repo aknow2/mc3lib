@@ -8,7 +8,26 @@ import {
   Data
 } from '../command/result';
 
-const createAgent = (Exec: Exec<CommandResult>) => {
+export interface Agent {
+  move: Commands.MoveCommand;
+  turn: Commands.TurnCommand;
+  attack: Commands.AttackCommand;
+  collect: Commands.CollectCommand;
+  detect: Commands.DetectCommand;
+  detectRedStone: Commands.DetectRedStoneCommand;
+  drop: Commands.DropCommand;
+  dropAll: Commands.DropAllCommand;
+  getItemDetail: Commands.GetItemDetailCommand;
+  getItemSpace: Commands.GetItemSpaceCommand;
+  inspect: Commands.InspectCommand;
+  inspectData: Commands.InspectDataCommand;
+  place: Commands.PlaceCommand;
+  till: Commands.TillCommand;
+  tpToPlayer: Commands.TpToPlayerCommand;
+  transfer: Commands.TransferCommand;
+}
+
+const createAgent = (Exec: Exec<CommandResult>): Agent => {
   const move = Commands.createMoveCommand(Exec as Exec<Success>);
   const turn = Commands.createTurnCommand(Exec as Exec<Success>);
   const attack = Commands.createAttack(Exec as Exec<Success>);

@@ -1,37 +1,57 @@
 import { Direction, TurnDirection, Items } from '../constants';
-import { Exec } from '../command/executor';
+import { Exec, ErrorMsg } from '../command/executor';
 import { Success, Result, BlockName, Data } from '../command/result';
 
-export const createMoveCommand = (Exec: Exec<Success>) => (
+export type MoveCommand = (dir: Direction) => Promise<Success | ErrorMsg>;
+export const createMoveCommand = (Exec: Exec<Success>): MoveCommand => (
   direction: Direction
 ) => Exec('move', { direction });
 
-export const createTurnCommand = (Exec: Exec<Success>) => (
+export type TurnCommand = (dir: TurnDirection) => Promise<Success | ErrorMsg>;
+export const createTurnCommand = (Exec: Exec<Success>): TurnCommand => (
   direction: TurnDirection
 ) => Exec('turn', { direction });
 
-export const createPlaceCommand = (Exec: Exec<Success>) => (
+export type PlaceCommand = (
+  slotNum: number,
+  direction: Direction
+) => Promise<Success | ErrorMsg>;
+export const createPlaceCommand = (Exec: Exec<Success>): PlaceCommand => (
   slotNum: number,
   direction: Direction
 ) => {
   return Exec('place', { slotNum, direction });
 };
 
-export const createTillCommand = (Exec: Exec<Success>) => (
+export type TillCommand = (direction: Direction) => Promise<Success | ErrorMsg>;
+export const createTillCommand = (Exec: Exec<Success>): TillCommand => (
   direction: Direction
 ) => {
   return Exec('till', { direction });
 };
 
-export const createAttack = (Exec: Exec<Success>) => (direction: Direction) => {
+export type AttackCommand = (
+  direction: Direction
+) => Promise<Success | ErrorMsg>;
+export const createAttack = (Exec: Exec<Success>): AttackCommand => (
+  direction: Direction
+) => {
   return Exec('attack', { direction });
 };
 
-export const createCollect = (Exec: Exec<Success>) => (item: Items) => {
+export type CollectCommand = (item: Items) => Promise<Success | ErrorMsg>;
+export const createCollect = (Exec: Exec<Success>): CollectCommand => (
+  item: Items
+) => {
   return Exec('collect', { item });
 };
 
-export const createDrop = (Exec: Exec<Success>) => (
+export type DropCommand = (
+  slotNum: number,
+  quantity: number,
+  direction: Direction
+) => Promise<Success | ErrorMsg>;
+export const createDrop = (Exec: Exec<Success>): DropCommand => (
   slotNum: number,
   quantity: number,
   direction: Direction
@@ -39,45 +59,74 @@ export const createDrop = (Exec: Exec<Success>) => (
   return Exec('drop', { slotNum, quantity, direction });
 };
 
-export const createDropAll = (Exec: Exec<Success>) => (
+export type DropAllCommand = (
+  direction: Direction
+) => Promise<Success | ErrorMsg>;
+export const createDropAll = (Exec: Exec<Success>): DropAllCommand => (
   direction: Direction
 ) => {
   return Exec('dropall', { direction });
 };
 
-export const createDetect = (Exec: Exec<Result>) => (direction: Direction) => {
+export type DetectCommand = (
+  direction: Direction
+) => Promise<Result | ErrorMsg>;
+export const createDetect = (Exec: Exec<Result>): DetectCommand => (
+  direction: Direction
+) => {
   return Exec('detect', { direction });
 };
-
-export const createInspect = (Exec: Exec<BlockName>) => (
+export type InspectCommand = (
+  direction: Direction
+) => Promise<BlockName | ErrorMsg>;
+export const createInspect = (Exec: Exec<BlockName>): InspectCommand => (
   direction: Direction
 ) => {
   return Exec('inspect', { direction });
 };
 
-export const createInspectData = (Exec: Exec<Data>) => (
+export type InspectDataCommand = (
+  direction: Direction
+) => Promise<Data | ErrorMsg>;
+export const createInspectData = (Exec: Exec<Data>): InspectDataCommand => (
   direction: Direction
 ) => {
   return Exec('inspectdata', { direction });
 };
 
-export const createDetectRedStone = (Exec: Exec<Result>) => (
+export type DetectRedStoneCommand = (
   direction: Direction
-) => {
+) => Promise<Result | ErrorMsg>;
+export const createDetectRedStone = (
+  Exec: Exec<Result>
+): DetectRedStoneCommand => (direction: Direction) => {
   return Exec('detectredstone', { direction });
 };
 
-export const createGetItemDetail = (Exec: Exec<Result>) => (
+export type GetItemDetailCommand = (
   slotNum: number
-) => {
+) => Promise<Result | ErrorMsg>;
+export const createGetItemDetail = (
+  Exec: Exec<Result>
+): GetItemDetailCommand => (slotNum: number) => {
   return Exec('getitemdetail', { slotNum });
 };
 
-export const createGetItemSpace = (Exec: Exec<Result>) => (slotNum: number) => {
+export type GetItemSpaceCommand = (
+  slotNum: number
+) => Promise<Result | ErrorMsg>;
+export const createGetItemSpace = (Exec: Exec<Result>): GetItemSpaceCommand => (
+  slotNum: number
+) => {
   return Exec('getitemspace', { slotNum });
 };
 
-export const createTransfer = (Exec: Exec<Result>) => (
+export type TransferCommand = (
+  srcslotNum: number,
+  quantity: number,
+  dstslotNum: number
+) => Promise<Result | ErrorMsg>;
+export const createTransfer = (Exec: Exec<Result>): TransferCommand => (
   srcslotNum: number,
   quantity: number,
   dstslotNum: number
@@ -85,6 +134,7 @@ export const createTransfer = (Exec: Exec<Result>) => (
   return Exec('transfer', { srcslotNum, quantity, dstslotNum });
 };
 
-export const createTpToPlayer = (Exec: Exec<void>) => () => {
+export type TpToPlayerCommand = () => void;
+export const createTpToPlayer = (Exec: Exec<void>): TpToPlayerCommand => () => {
   return Exec('tptoplayer', {});
 };

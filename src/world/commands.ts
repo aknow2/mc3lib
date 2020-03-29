@@ -1,9 +1,16 @@
 import { Items, Colors } from '../constants';
-import { Exec, Position } from '../command/executor';
+import { Exec, Position, ErrorMsg } from '../command/executor';
 import { Count, Fill, CompareCount } from '../command/result';
 import { BlockPosition } from '..';
 
-export const createSetBlockCommand = (sendCommand: Exec<void>) => (
+export type SetBlockCommand = (
+  position: Position,
+  tileName: Items,
+  tileData: number | Colors
+) => void;
+export const createSetBlockCommand = (
+  sendCommand: Exec<void>
+): SetBlockCommand => (
   position: Position,
   tileName: Items,
   tileData: number | Colors = 0
@@ -15,6 +22,15 @@ export const createSetBlockCommand = (sendCommand: Exec<void>) => (
   });
 };
 
+export type CloneCommand = (
+  begin: Position,
+  end: Position,
+  destination: Position,
+  maskMode?: string,
+  cloneMode?: string,
+  tileName?: string,
+  tileData?: number
+) => Promise<Count | ErrorMsg>;
 export const createClone = (sendCommand: Exec<Count>) => (
   begin: Position,
   end: Position,
@@ -35,6 +51,10 @@ export const createClone = (sendCommand: Exec<Count>) => (
   });
 };
 
+export type SummonCommand = (
+  spawnPos: Position,
+  entityType: string
+) => Promise<Count | ErrorMsg>;
 export const createSummon = (sendCommand: Exec<Count>) => (
   spawnPos: Position,
   entityType: string
@@ -45,11 +65,14 @@ export const createSummon = (sendCommand: Exec<Count>) => (
   });
 };
 
-export const createExecuteAsOther = (sendCommand: Exec<void>) => (
+export type ExecuteAsOther = (
   target: string,
   position: Position,
   command: string
-) => {
+) => Promise<void | ErrorMsg>;
+export const createExecuteAsOther = (
+  sendCommand: Exec<void>
+): ExecuteAsOther => (target: string, position: Position, command: string) => {
   return sendCommand('executeasother', {
     target,
     position: position.str,
@@ -57,13 +80,25 @@ export const createExecuteAsOther = (sendCommand: Exec<void>) => (
   });
 };
 
-export const createKill = (sendCommand: Exec<void>) => (target: string) => {
+export type KillCommand = (target: string) => Promise<void | ErrorMsg>;
+export const createKill = (sendCommand: Exec<void>): KillCommand => (
+  target: string
+) => {
   return sendCommand('kill', {
     target
   });
 };
 
-export const createDetect = (sendCommand: Exec<void>) => (
+export type ExecDetectCommand = (
+  target: string,
+  position: Position,
+  detect: string,
+  detectPos: Position,
+  detectBlock: string | Items,
+  detectData: number,
+  command: string
+) => Promise<void | ErrorMsg>;
+export const createDetect = (sendCommand: Exec<void>): ExecDetectCommand => (
   target: string,
   position: Position,
   detect: string,
@@ -83,7 +118,17 @@ export const createDetect = (sendCommand: Exec<void>) => (
   });
 };
 
-export const createFill = (sendCommand: Exec<Fill>) => (
+export type FillCommand = (
+  from: Position,
+  to: Position,
+  tileName: string | Items,
+  tileData: number,
+  intData?: number,
+  oldBlockHandling?: number,
+  replaceTileName?: string | Items,
+  replaceDataValue?: number
+) => Promise<Fill | ErrorMsg>;
+export const createFill = (sendCommand: Exec<Fill>): FillCommand => (
   from: Position,
   to: Position,
   tileName: string | Items,
@@ -105,7 +150,11 @@ export const createFill = (sendCommand: Exec<Fill>) => (
   });
 };
 
-export const createWeather = (sendCommand: Exec<void>) => (
+export type WeatherCommand = (
+  type: string,
+  duration: number
+) => Promise<void | ErrorMsg>;
+export const createWeather = (sendCommand: Exec<void>): WeatherCommand => (
   type: string,
   duration: number
 ) => {
@@ -115,6 +164,12 @@ export const createWeather = (sendCommand: Exec<void>) => (
   });
 };
 
+export type TpToTargetPosCommand = (
+  victim: string,
+  destination: Position,
+  yRot?: number,
+  xRot?: number
+) => Promise<void | ErrorMsg>;
 export const createTpTargetPos = (sendCommand: Exec<void>) => (
   victim: string,
   destination: Position,
@@ -129,7 +184,15 @@ export const createTpTargetPos = (sendCommand: Exec<void>) => (
   });
 };
 
-export const createTpTargetToTarget = (sendCommand: Exec<void>) => (
+export type TpTargetToTargetCommand = (
+  victim: string,
+  destination: string,
+  yRot?: number,
+  xRot?: number
+) => Promise<void | ErrorMsg>;
+export const createTpTargetToTarget = (
+  sendCommand: Exec<void>
+): TpTargetToTargetCommand => (
   victim: string,
   destination: string,
   yRot?: number,
@@ -142,20 +205,36 @@ export const createTpTargetToTarget = (sendCommand: Exec<void>) => (
     'x-rot': xRot
   });
 };
-export const createChangeTimeByNumber = (sendCommand: Exec<void>) => (
+export type ChangeTimeByNumberCommand = (
   time: number
-) => {
+) => Promise<void | ErrorMsg>;
+export const createChangeTimeByNumber = (
+  sendCommand: Exec<void>
+): ChangeTimeByNumberCommand => (time: number) => {
   return sendCommand('timesetbynumber', {
     time
   });
 };
-export const createChangeTimeByName = (sendCommand: Exec<void>) => (
+
+export type ChangeTimeByNameCommand = (
   time: string
-) => {
+) => Promise<void | ErrorMsg>;
+export const createChangeTimeByName = (
+  sendCommand: Exec<void>
+): ChangeTimeByNameCommand => (time: string) => {
   return sendCommand('timesetbyname', {
     time
   });
 };
+
+export type TestForBlocks = (
+  compareCount: number,
+  matches: boolean,
+  begin: BlockPosition,
+  end: BlockPosition,
+  destination: BlockPosition,
+  mode?: string
+) => Promise<CompareCount | ErrorMsg>;
 export const createTestForBlocks = (sendCommand: Exec<CompareCount>) => (
   compareCount: number,
   matches: boolean,
@@ -173,6 +252,11 @@ export const createTestForBlocks = (sendCommand: Exec<CompareCount>) => (
     mode
   });
 };
+
+export type TestForBlockCommand = (
+  position: BlockPosition,
+  tileName: string
+) => Promise<CompareCount | ErrorMsg>;
 export const createTestForBlock = (sendCommand: Exec<CompareCount>) => (
   position: BlockPosition,
   tileName: string
@@ -182,7 +266,14 @@ export const createTestForBlock = (sendCommand: Exec<CompareCount>) => (
     tileName
   });
 };
-export const createGive = (sendCommand: Exec<void>) => (
+
+export type GiveCommand = (
+  player: string,
+  itemName: string | Items,
+  data: number,
+  amount?: number
+) => Promise<void | ErrorMsg>;
+export const createGive = (sendCommand: Exec<void>): GiveCommand => (
   player: string,
   itemName: string | Items,
   data: number,
