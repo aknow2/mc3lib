@@ -1,21 +1,23 @@
 import { Exec } from '../command/executor';
-import { CommandResult, Success, Result, BlockName, Data } from '../command/result';
-declare const createAgent: (Exec: Exec<CommandResult>) => {
-    move: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Success>;
-    attack: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Success>;
-    turn: (direction: import("..").TurnDirection) => Promise<import("../command/executor").ErrorMsg | Success>;
-    collect: (item: import("..").Items) => Promise<import("../command/executor").ErrorMsg | Success>;
-    detect: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Result>;
-    detectRedStone: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Result>;
-    drop: (slotNum: number, quantity: number, direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Success>;
-    dropAll: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Success>;
-    getItemDetail: (slotNum: number) => Promise<import("../command/executor").ErrorMsg | Result>;
-    getItemSpace: (slotNum: number) => Promise<import("../command/executor").ErrorMsg | Result>;
-    inspect: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | BlockName>;
-    inspectData: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Data>;
-    place: (slotNum: number, direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Success>;
-    till: (direction: import("..").Direction) => Promise<import("../command/executor").ErrorMsg | Success>;
-    tpToPlayer: () => Promise<void | import("../command/executor").ErrorMsg>;
-    transfer: (srcslotNum: number, quantity: number, dstslotNum: number) => Promise<import("../command/executor").ErrorMsg | Result>;
-};
+import * as Commands from './commands';
+import { CommandResult } from '../command/result';
+export interface Agent {
+    move: Commands.MoveCommand;
+    turn: Commands.TurnCommand;
+    attack: Commands.AttackCommand;
+    collect: Commands.CollectCommand;
+    detect: Commands.DetectCommand;
+    detectRedStone: Commands.DetectRedStoneCommand;
+    drop: Commands.DropCommand;
+    dropAll: Commands.DropAllCommand;
+    getItemDetail: Commands.GetItemDetailCommand;
+    getItemSpace: Commands.GetItemSpaceCommand;
+    inspect: Commands.InspectCommand;
+    inspectData: Commands.InspectDataCommand;
+    place: Commands.PlaceCommand;
+    till: Commands.TillCommand;
+    tpToPlayer: Commands.TpToPlayerCommand;
+    transfer: Commands.TransferCommand;
+}
+declare const createAgent: (Exec: Exec<CommandResult>) => Agent;
 export default createAgent;

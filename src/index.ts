@@ -1,5 +1,8 @@
 import mc3lib from './client';
 
+export { Agent } from './agent/index';
+export { World } from './world/index';
+export { MCClient } from './client';
 export {
   Colors,
   Items,
@@ -10,7 +13,5 @@ export {
 } from './constants';
 
 export { Position as BlockPosition } from './command/executor';
-
-export const client = mc3lib;
 
 export default mc3lib;
